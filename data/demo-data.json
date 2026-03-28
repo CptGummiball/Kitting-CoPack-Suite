@@ -1,0 +1,1084 @@
+{
+  "users": [
+    {
+      "id": "usr-001",
+      "email": "admin@kitting-suite.local",
+      "name": "Max Müller",
+      "role": "admin",
+      "status": "active",
+      "permissions": [
+        "tasks.view",
+        "tasks.create",
+        "tasks.edit",
+        "tasks.delete",
+        "tasks.assign",
+        "tasks.status",
+        "items.view",
+        "items.create",
+        "items.edit",
+        "items.delete",
+        "users.view",
+        "users.create",
+        "users.edit",
+        "users.delete",
+        "users.permissions",
+        "labels.view",
+        "labels.create",
+        "labels.edit",
+        "labels.delete",
+        "labels.print",
+        "settings.view",
+        "settings.edit",
+        "settings.api",
+        "settings.system",
+        "audit.view",
+        "reports.view"
+      ],
+      "password": "admin",
+      "createdAt": "2026-01-15T08:00:00Z",
+      "updatedAt": "2026-01-15T08:00:00Z",
+      "lastLoginAt": "2026-03-27T09:00:00Z"
+    },
+    {
+      "id": "usr-002",
+      "email": "supervisor@kitting-suite.local",
+      "name": "Anna Schmidt",
+      "role": "supervisor",
+      "status": "active",
+      "permissions": [
+        "tasks.view",
+        "tasks.create",
+        "tasks.edit",
+        "tasks.assign",
+        "tasks.status",
+        "items.view",
+        "items.create",
+        "items.edit",
+        "users.view",
+        "labels.view",
+        "labels.create",
+        "labels.edit",
+        "labels.print",
+        "settings.view",
+        "audit.view",
+        "reports.view"
+      ],
+      "password": "supervisor",
+      "createdAt": "2026-01-20T08:00:00Z",
+      "updatedAt": "2026-01-20T08:00:00Z",
+      "lastLoginAt": "2026-03-27T08:30:00Z"
+    },
+    {
+      "id": "usr-003",
+      "email": "worker@kitting-suite.local",
+      "name": "Tom Weber",
+      "role": "user",
+      "status": "active",
+      "permissions": [
+        "tasks.view",
+        "tasks.status",
+        "items.view",
+        "labels.view",
+        "labels.print"
+      ],
+      "password": "worker",
+      "createdAt": "2026-02-01T08:00:00Z",
+      "updatedAt": "2026-02-01T08:00:00Z",
+      "lastLoginAt": "2026-03-27T07:45:00Z"
+    },
+    {
+      "id": "usr-004",
+      "email": "lisa@kitting-suite.local",
+      "name": "Lisa Fischer",
+      "role": "user",
+      "status": "active",
+      "permissions": [
+        "tasks.view",
+        "tasks.status",
+        "items.view",
+        "labels.view",
+        "labels.print"
+      ],
+      "password": "lisa",
+      "createdAt": "2026-02-10T08:00:00Z",
+      "updatedAt": "2026-02-10T08:00:00Z"
+    },
+    {
+      "id": "usr-005",
+      "email": "inactive@kitting-suite.local",
+      "name": "Klaus Berg",
+      "role": "user",
+      "status": "inactive",
+      "permissions": [
+        "tasks.view",
+        "tasks.status",
+        "items.view"
+      ],
+      "password": "inactive",
+      "createdAt": "2026-01-10T08:00:00Z",
+      "updatedAt": "2026-03-01T08:00:00Z"
+    },
+    {
+      "id": "usr-live",
+      "email": "live@demo.local",
+      "name": "Live Nutzer",
+      "role": "supervisor",
+      "status": "active",
+      "permissions": [
+        "tasks.view",
+        "tasks.create",
+        "tasks.edit",
+        "tasks.assign",
+        "tasks.status",
+        "items.view",
+        "items.create",
+        "items.edit",
+        "users.view",
+        "labels.view",
+        "labels.create",
+        "labels.edit",
+        "labels.print",
+        "settings.view",
+        "audit.view",
+        "reports.view"
+      ],
+      "password": "live",
+      "createdAt": "2026-03-27T12:00:00Z",
+      "updatedAt": "2026-03-27T12:00:00Z"
+    }
+  ],
+  "items": [
+    {
+      "id": "item-001",
+      "sku": "KIT-PRO-2026",
+      "name": "Premium Welcome Kit",
+      "description": "Hochvertiges Willkommenspaket für Neukunden. Enthält personalisierte Begrüßungskarte, Produktproben und Informationsbroschüre.",
+      "components": [
+        {
+          "id": "comp-001",
+          "name": "Geschenkbox Premium (250x200x80mm)",
+          "quantity": 1,
+          "unit": "Stück",
+          "notes": "Schwarz, matt"
+        },
+        {
+          "id": "comp-002",
+          "name": "Begrüßungskarte personalisiert",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-003",
+          "name": "Produktprobe Set A",
+          "quantity": 3,
+          "unit": "Stück",
+          "alternativeComponent": "Produktprobe Set B"
+        },
+        {
+          "id": "comp-004",
+          "name": "Informationsbroschüre 2026",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-005",
+          "name": "Seidenpapier",
+          "quantity": 2,
+          "unit": "Bogen",
+          "notes": "Weiß, säurefrei"
+        },
+        {
+          "id": "comp-006",
+          "name": "Aufkleber Logo",
+          "quantity": 1,
+          "unit": "Stück"
+        }
+      ],
+      "instructions": [
+        {
+          "step": 1,
+          "title": "Vorbereitung",
+          "description": "Geschenkbox aufstellen und Seidenpapier zuschneiden. Box innen mit einem Bogen Seidenpapier auslegen."
+        },
+        {
+          "step": 2,
+          "title": "Hauptinhalt platzieren",
+          "description": "Begrüßungskarte oben rechts, Produktproben mittig, Broschüre links platzieren."
+        },
+        {
+          "step": 3,
+          "title": "Abdeckung",
+          "description": "Zweiten Bogen Seidenpapier oben auflegen und Deckel schließen."
+        },
+        {
+          "step": 4,
+          "title": "Versiegelung",
+          "description": "Aufkleber mittig auf den Deckel kleben. Darauf achten, dass der Aufkleber gerade sitzt."
+        },
+        {
+          "step": 5,
+          "title": "Qualitätskontrolle",
+          "description": "Verpackung auf Beschädigungen prüfen. Inhalt auf Vollständigkeit kontrollieren."
+        }
+      ],
+      "specialNotes": "Achtung: Proben dürfen nicht gedrückt werden. Box vorsichtig handhaben.",
+      "labelConfigs": [
+        {
+          "templateId": "lbl-001",
+          "templateName": "Versandetikett Standard",
+          "size": "100x150mm",
+          "defaultQuantity": 1
+        },
+        {
+          "templateId": "lbl-002",
+          "templateName": "Produktlabel Klein",
+          "size": "50x25mm",
+          "defaultQuantity": 3
+        }
+      ],
+      "packagingData": "Karton: 250x200x80mm, Gewicht netto: ~350g",
+      "isActive": true,
+      "createdAt": "2026-01-15T10:00:00Z",
+      "updatedAt": "2026-03-10T14:00:00Z",
+      "changeHistory": []
+    },
+    {
+      "id": "item-002",
+      "sku": "KIT-STARTER-01",
+      "name": "Starter Kit Basic",
+      "description": "Einfaches Einsteiger-Kit mit den wichtigsten Produkten und Materialien für Neukunden.",
+      "components": [
+        {
+          "id": "comp-010",
+          "name": "Versandbox Standard (200x150x60mm)",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-011",
+          "name": "Produktkatalog Mini",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-012",
+          "name": "Produktprobe Standard",
+          "quantity": 2,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-013",
+          "name": "Visitenkarte",
+          "quantity": 1,
+          "unit": "Stück"
+        }
+      ],
+      "instructions": [
+        {
+          "step": 1,
+          "title": "Box vorbereiten",
+          "description": "Box auffalten und auf sauberer Arbeitsfläche bereitstellen."
+        },
+        {
+          "step": 2,
+          "title": "Inhalte einlegen",
+          "description": "Katalog unten, Proben darauf, Visitenkarte oben platzieren."
+        },
+        {
+          "step": 3,
+          "title": "Verschließen",
+          "description": "Box schließen und mit Klebeband verschließen."
+        }
+      ],
+      "specialNotes": "",
+      "labelConfigs": [
+        {
+          "templateId": "lbl-001",
+          "templateName": "Versandetikett Standard",
+          "size": "100x150mm",
+          "defaultQuantity": 1
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-02-01T10:00:00Z",
+      "updatedAt": "2026-02-01T10:00:00Z",
+      "changeHistory": []
+    },
+    {
+      "id": "item-003",
+      "sku": "COPACK-BUNDLE-05",
+      "name": "Sommer-Aktionsbundle",
+      "description": "Saisonales CoPack-Bundle aus 5 Einzelprodukten für die Sommeraktion. Display-ready Verpackung.",
+      "components": [
+        {
+          "id": "comp-020",
+          "name": "Display-Karton Sommer",
+          "quantity": 1,
+          "unit": "Stück",
+          "notes": "Sommer-Design 2026"
+        },
+        {
+          "id": "comp-021",
+          "name": "Produkt Sonnenlotion 50ml",
+          "quantity": 2,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-022",
+          "name": "Produkt Lippenpflege LSF30",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-023",
+          "name": "Produkt After-Sun Gel 30ml",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-024",
+          "name": "Produkt Erfrischungstuch 10er",
+          "quantity": 1,
+          "unit": "Packung"
+        },
+        {
+          "id": "comp-025",
+          "name": "Aktionsflyer Sommer",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-026",
+          "name": "Shrink-Folie Bundle",
+          "quantity": 1,
+          "unit": "Stück"
+        }
+      ],
+      "instructions": [
+        {
+          "step": 1,
+          "title": "Display aufbauen",
+          "description": "Display-Karton auffalten und zusammenstecken. Standfestigkeit prüfen."
+        },
+        {
+          "step": 2,
+          "title": "Produkte einsetzen",
+          "description": "Produkte gemäß Planogramm in den Display einsetzen: Lotion hinten, kleinere Produkte vorne."
+        },
+        {
+          "step": 3,
+          "title": "Flyer einlegen",
+          "description": "Aktionsflyer aufrecht in die dafür vorgesehene Lasche stecken."
+        },
+        {
+          "step": 4,
+          "title": "Schrumpffolie",
+          "description": "Bundle mit Shrink-Folie umwickeln und mit Heißluft schrumpfen."
+        }
+      ],
+      "specialNotes": "Schrumpftemperatur: 160°C, max. 3 Sekunden pro Seite. Produkte dürfen keiner Hitze ausgesetzt werden!",
+      "labelConfigs": [
+        {
+          "templateId": "lbl-003",
+          "templateName": "Bundle-Etikett Groß",
+          "size": "80x60mm",
+          "defaultQuantity": 1
+        },
+        {
+          "templateId": "lbl-002",
+          "templateName": "Produktlabel Klein",
+          "size": "50x25mm",
+          "defaultQuantity": 5
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-03-01T10:00:00Z",
+      "updatedAt": "2026-03-15T10:00:00Z",
+      "changeHistory": []
+    },
+    {
+      "id": "item-004",
+      "sku": "KIT-REPAIR-10",
+      "name": "Reparatur-Kit Elektronik",
+      "description": "Komplett-Kit für Elektronik-Reparaturen im Feldservice. Enthält Werkzeug und Ersatzteile.",
+      "components": [
+        {
+          "id": "comp-030",
+          "name": "Hartschalenkoffer Klein",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-031",
+          "name": "Schraubendreher-Set (6-teilig)",
+          "quantity": 1,
+          "unit": "Set"
+        },
+        {
+          "id": "comp-032",
+          "name": "Multimeter Digital",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-033",
+          "name": "Kabelset Sortiment",
+          "quantity": 1,
+          "unit": "Beutel"
+        },
+        {
+          "id": "comp-034",
+          "name": "Ersatzsicherungen (10er Pack)",
+          "quantity": 1,
+          "unit": "Packung"
+        },
+        {
+          "id": "comp-035",
+          "name": "Anti-Statik-Armband",
+          "quantity": 1,
+          "unit": "Stück"
+        },
+        {
+          "id": "comp-036",
+          "name": "Reinigungstücher (20er)",
+          "quantity": 1,
+          "unit": "Packung"
+        },
+        {
+          "id": "comp-037",
+          "name": "Service-Handbuch",
+          "quantity": 1,
+          "unit": "Stück"
+        }
+      ],
+      "instructions": [
+        {
+          "step": 1,
+          "title": "Koffer vorbereiten",
+          "description": "Koffer öffnen und Schaumstoffeinlagen prüfen. Alle Einsätze müssen sauber und unbeschädigt sein."
+        },
+        {
+          "step": 2,
+          "title": "Werkzeug einsetzen",
+          "description": "Schraubendreher-Set in die obere Schale, Multimeter in die vorgesehene Aussparung."
+        },
+        {
+          "step": 3,
+          "title": "Kleinteile verpacken",
+          "description": "Kabelset und Sicherungen in die Seitenfächer, Armband und Tücher in die Deckelnetztasche."
+        },
+        {
+          "step": 4,
+          "title": "Handbuch & Abschluss",
+          "description": "Service-Handbuch obenauf legen. Koffer schließen und Verschlüsse prüfen."
+        }
+      ],
+      "specialNotes": "Multimeter muss auf Funktion geprüft werden (Batterie eingelegt, Selbsttest bestanden). ESD-sensible Teile nur mit Handschuhen anfassen.",
+      "labelConfigs": [
+        {
+          "templateId": "lbl-001",
+          "templateName": "Versandetikett Standard",
+          "size": "100x150mm",
+          "defaultQuantity": 1
+        },
+        {
+          "templateId": "lbl-004",
+          "templateName": "Inventar-Etikett",
+          "size": "40x20mm",
+          "defaultQuantity": 1
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-02-20T10:00:00Z",
+      "updatedAt": "2026-03-20T10:00:00Z",
+      "changeHistory": []
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "Premium Welcome Kits – Charge März",
+      "referenceId": "WK-2026-0301",
+      "itemId": "item-001",
+      "status": "in-progress",
+      "priority": "high",
+      "plannedDate": "2026-03-25",
+      "dueDate": "2026-03-28",
+      "estimatedQuantity": 500,
+      "completedQuantity": 320,
+      "assignedTo": "usr-003",
+      "specialInstructions": "Kunde hat spezielle Karten angefordert – Charge 'Karten-Sonder' verwenden.",
+      "progress": 64,
+      "createdAt": "2026-03-20T08:00:00Z",
+      "updatedAt": "2026-03-27T09:30:00Z",
+      "createdBy": "usr-001",
+      "activityLog": [
+        {
+          "id": "act-001",
+          "timestamp": "2026-03-20T08:00:00Z",
+          "userId": "usr-001",
+          "userName": "Max Müller",
+          "action": "Task erstellt",
+          "details": "Task für 500 Premium Welcome Kits angelegt."
+        },
+        {
+          "id": "act-002",
+          "timestamp": "2026-03-25T07:00:00Z",
+          "userId": "usr-003",
+          "userName": "Tom Weber",
+          "action": "Task gestartet",
+          "details": "Produktion begonnen."
+        },
+        {
+          "id": "act-003",
+          "timestamp": "2026-03-26T16:00:00Z",
+          "userId": "usr-003",
+          "userName": "Tom Weber",
+          "action": "Fortschritt aktualisiert",
+          "details": "200 Stück fertiggestellt."
+        },
+        {
+          "id": "act-004",
+          "timestamp": "2026-03-27T09:30:00Z",
+          "userId": "usr-003",
+          "userName": "Tom Weber",
+          "action": "Fortschritt aktualisiert",
+          "details": "320 Stück fertiggestellt."
+        }
+      ]
+    },
+    {
+      "id": "task-002",
+      "title": "Starter Kits Nachproduktion",
+      "referenceId": "SK-2026-0315",
+      "itemId": "item-002",
+      "status": "planned",
+      "priority": "medium",
+      "plannedDate": "2026-03-29",
+      "dueDate": "2026-04-02",
+      "estimatedQuantity": 1000,
+      "completedQuantity": 0,
+      "assignedTo": "usr-004",
+      "specialInstructions": "",
+      "progress": 0,
+      "createdAt": "2026-03-22T10:00:00Z",
+      "updatedAt": "2026-03-22T10:00:00Z",
+      "createdBy": "usr-002",
+      "activityLog": [
+        {
+          "id": "act-010",
+          "timestamp": "2026-03-22T10:00:00Z",
+          "userId": "usr-002",
+          "userName": "Anna Schmidt",
+          "action": "Task erstellt",
+          "details": "1000 Starter Kits für Nachbestellung."
+        }
+      ]
+    },
+    {
+      "id": "task-003",
+      "title": "Sommer-Aktionsbundle Vorbereitung",
+      "referenceId": "SB-2026-0401",
+      "itemId": "item-003",
+      "status": "open",
+      "priority": "critical",
+      "plannedDate": "2026-04-01",
+      "dueDate": "2026-04-05",
+      "estimatedQuantity": 2000,
+      "completedQuantity": 0,
+      "specialInstructions": "Display muss PoS-ready sein. Besondere QC bei Shrink-Folie durchführen.",
+      "progress": 0,
+      "createdAt": "2026-03-25T10:00:00Z",
+      "updatedAt": "2026-03-25T10:00:00Z",
+      "createdBy": "usr-001",
+      "activityLog": [
+        {
+          "id": "act-020",
+          "timestamp": "2026-03-25T10:00:00Z",
+          "userId": "usr-001",
+          "userName": "Max Müller",
+          "action": "Task erstellt",
+          "details": "2000 Sommer-Bundles für PoS-Aktion."
+        }
+      ]
+    },
+    {
+      "id": "task-004",
+      "title": "Reparatur-Kits Feldservice Q2",
+      "referenceId": "RK-2026-0401",
+      "itemId": "item-004",
+      "status": "planned",
+      "priority": "high",
+      "plannedDate": "2026-04-03",
+      "dueDate": "2026-04-10",
+      "estimatedQuantity": 50,
+      "completedQuantity": 0,
+      "assignedTo": "usr-003",
+      "specialInstructions": "Jedes Multimeter einzeln prüfen – Prüfprotokoll ausfüllen.",
+      "progress": 0,
+      "createdAt": "2026-03-26T08:00:00Z",
+      "updatedAt": "2026-03-26T08:00:00Z",
+      "createdBy": "usr-001",
+      "activityLog": [
+        {
+          "id": "act-030",
+          "timestamp": "2026-03-26T08:00:00Z",
+          "userId": "usr-001",
+          "userName": "Max Müller",
+          "action": "Task erstellt",
+          "details": "50 Reparatur-Kits für Q2 Feldservice."
+        }
+      ]
+    },
+    {
+      "id": "task-005",
+      "title": "Welcome Kits – Februar Restbestand",
+      "referenceId": "WK-2026-0215",
+      "itemId": "item-001",
+      "status": "completed",
+      "priority": "low",
+      "plannedDate": "2026-02-15",
+      "dueDate": "2026-02-20",
+      "estimatedQuantity": 200,
+      "completedQuantity": 200,
+      "assignedTo": "usr-004",
+      "specialInstructions": "",
+      "progress": 100,
+      "createdAt": "2026-02-10T10:00:00Z",
+      "updatedAt": "2026-02-20T16:00:00Z",
+      "createdBy": "usr-001",
+      "activityLog": [
+        {
+          "id": "act-040",
+          "timestamp": "2026-02-10T10:00:00Z",
+          "userId": "usr-001",
+          "userName": "Max Müller",
+          "action": "Task erstellt",
+          "details": ""
+        },
+        {
+          "id": "act-041",
+          "timestamp": "2026-02-15T07:00:00Z",
+          "userId": "usr-004",
+          "userName": "Lisa Fischer",
+          "action": "Task gestartet",
+          "details": ""
+        },
+        {
+          "id": "act-042",
+          "timestamp": "2026-02-20T16:00:00Z",
+          "userId": "usr-004",
+          "userName": "Lisa Fischer",
+          "action": "Task abgeschlossen",
+          "details": "200/200 fertiggestellt."
+        }
+      ]
+    },
+    {
+      "id": "task-006",
+      "title": "Starter Kits Express-Bestellung",
+      "referenceId": "SK-2026-0327",
+      "itemId": "item-002",
+      "status": "open",
+      "priority": "critical",
+      "plannedDate": "2026-03-27",
+      "dueDate": "2026-03-28",
+      "estimatedQuantity": 100,
+      "completedQuantity": 0,
+      "specialInstructions": "EILAUFTRAG – sofort bearbeiten! Versand am 28.03. zwingend.",
+      "progress": 0,
+      "createdAt": "2026-03-27T08:00:00Z",
+      "updatedAt": "2026-03-27T08:00:00Z",
+      "createdBy": "usr-002",
+      "activityLog": [
+        {
+          "id": "act-050",
+          "timestamp": "2026-03-27T08:00:00Z",
+          "userId": "usr-002",
+          "userName": "Anna Schmidt",
+          "action": "Task erstellt",
+          "details": "Eilauftrag für 100 Starter Kits."
+        }
+      ]
+    },
+    {
+      "id": "task-007",
+      "title": "Premium Welcome Kits – Sonderedition",
+      "referenceId": "WK-2026-SE01",
+      "itemId": "item-001",
+      "status": "paused",
+      "priority": "medium",
+      "plannedDate": "2026-03-20",
+      "dueDate": "2026-04-01",
+      "estimatedQuantity": 150,
+      "completedQuantity": 45,
+      "assignedTo": "usr-004",
+      "specialInstructions": "Produktion pausiert – Sonderkarten sind in Nachbestellung.",
+      "progress": 30,
+      "createdAt": "2026-03-18T08:00:00Z",
+      "updatedAt": "2026-03-24T10:00:00Z",
+      "createdBy": "usr-001",
+      "activityLog": [
+        {
+          "id": "act-060",
+          "timestamp": "2026-03-18T08:00:00Z",
+          "userId": "usr-001",
+          "userName": "Max Müller",
+          "action": "Task erstellt",
+          "details": ""
+        },
+        {
+          "id": "act-061",
+          "timestamp": "2026-03-20T07:00:00Z",
+          "userId": "usr-004",
+          "userName": "Lisa Fischer",
+          "action": "Task gestartet",
+          "details": ""
+        },
+        {
+          "id": "act-062",
+          "timestamp": "2026-03-24T10:00:00Z",
+          "userId": "usr-004",
+          "userName": "Lisa Fischer",
+          "action": "Task pausiert",
+          "details": "Sonderkarten nicht auf Lager."
+        }
+      ]
+    }
+  ],
+  "labelTemplates": [
+    {
+      "id": "lbl-001",
+      "name": "Versandetikett Standard",
+      "description": "Standard-Versandetikett mit Absender, Empfänger und Barcode.",
+      "size": "100x150mm",
+      "width": 100,
+      "height": 150,
+      "zplTemplate": "^XA\n^FO50,30^A0N,30,30^FD{{item.name}}^FS\n^FO50,70^A0N,20,20^FDSKU: {{item.sku}}^FS\n^FO50,100^A0N,20,20^FDRef: {{task.referenceId}}^FS\n^FO50,140^BY3^BCN,80,Y,N,N^FD{{item.sku}}^FS\n^FO50,240^A0N,18,18^FDDate: {{date}}^FS\n^XZ",
+      "fields": [
+        {
+          "name": "Produktname",
+          "type": "text",
+          "x": 50,
+          "y": 30,
+          "fontSize": 30,
+          "dataSource": "item.name"
+        },
+        {
+          "name": "SKU",
+          "type": "text",
+          "x": 50,
+          "y": 70,
+          "fontSize": 20,
+          "dataSource": "item.sku"
+        },
+        {
+          "name": "Referenz",
+          "type": "text",
+          "x": 50,
+          "y": 100,
+          "fontSize": 20,
+          "dataSource": "task.referenceId"
+        },
+        {
+          "name": "Barcode",
+          "type": "barcode",
+          "x": 50,
+          "y": 140,
+          "width": 200,
+          "height": 80,
+          "dataSource": "item.sku"
+        },
+        {
+          "name": "Datum",
+          "type": "text",
+          "x": 50,
+          "y": 240,
+          "fontSize": 18,
+          "dataSource": "date"
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-01-10T10:00:00Z",
+      "updatedAt": "2026-01-10T10:00:00Z"
+    },
+    {
+      "id": "lbl-002",
+      "name": "Produktlabel Klein",
+      "description": "Kleines Produktlabel für Einzelartikel-Kennzeichnung.",
+      "size": "50x25mm",
+      "width": 50,
+      "height": 25,
+      "zplTemplate": "^XA\n^FO10,5^A0N,14,14^FD{{item.name}}^FS\n^FO10,22^A0N,10,10^FD{{item.sku}}^FS\n^XZ",
+      "fields": [
+        {
+          "name": "Produktname",
+          "type": "text",
+          "x": 10,
+          "y": 5,
+          "fontSize": 14,
+          "dataSource": "item.name"
+        },
+        {
+          "name": "SKU",
+          "type": "text",
+          "x": 10,
+          "y": 22,
+          "fontSize": 10,
+          "dataSource": "item.sku"
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-01-12T10:00:00Z",
+      "updatedAt": "2026-01-12T10:00:00Z"
+    },
+    {
+      "id": "lbl-003",
+      "name": "Bundle-Etikett Groß",
+      "description": "Großes Etikett für Bundle-Verpackungen und Displays.",
+      "size": "80x60mm",
+      "width": 80,
+      "height": 60,
+      "zplTemplate": "^XA\n^FO20,10^A0N,24,24^FD{{item.name}}^FS\n^FO20,40^A0N,16,16^FDSKU: {{item.sku}}^FS\n^FO20,60^A0N,14,14^FDRef: {{task.referenceId}}^FS\n^FO20,85^BY2^BCN,50,Y,N,N^FD{{item.sku}}^FS\n^XZ",
+      "fields": [
+        {
+          "name": "Produktname",
+          "type": "text",
+          "x": 20,
+          "y": 10,
+          "fontSize": 24,
+          "dataSource": "item.name"
+        },
+        {
+          "name": "SKU",
+          "type": "text",
+          "x": 20,
+          "y": 40,
+          "fontSize": 16,
+          "dataSource": "item.sku"
+        },
+        {
+          "name": "Referenz",
+          "type": "text",
+          "x": 20,
+          "y": 60,
+          "fontSize": 14,
+          "dataSource": "task.referenceId"
+        },
+        {
+          "name": "Barcode",
+          "type": "barcode",
+          "x": 20,
+          "y": 85,
+          "width": 150,
+          "height": 50,
+          "dataSource": "item.sku"
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-02-01T10:00:00Z",
+      "updatedAt": "2026-02-01T10:00:00Z"
+    },
+    {
+      "id": "lbl-004",
+      "name": "Inventar-Etikett",
+      "description": "Kleines Etikett zur Inventarkennzeichnung mit QR-Code.",
+      "size": "40x20mm",
+      "width": 40,
+      "height": 20,
+      "zplTemplate": "^XA\n^FO5,3^A0N,10,10^FD{{item.sku}}^FS\n^FO100,3^BQN,2,3^FDQA,{{item.sku}}^FS\n^XZ",
+      "fields": [
+        {
+          "name": "SKU",
+          "type": "text",
+          "x": 5,
+          "y": 3,
+          "fontSize": 10,
+          "dataSource": "item.sku"
+        },
+        {
+          "name": "QR-Code",
+          "type": "qrcode",
+          "x": 100,
+          "y": 3,
+          "width": 40,
+          "height": 40,
+          "dataSource": "item.sku"
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-02-15T10:00:00Z",
+      "updatedAt": "2026-02-15T10:00:00Z"
+    }
+  ],
+  "printJobs": [
+    {
+      "id": "pj-001",
+      "templateId": "lbl-001",
+      "templateName": "Versandetikett Standard",
+      "taskId": "task-005",
+      "itemId": "item-001",
+      "quantity": 200,
+      "status": "completed",
+      "printedBy": "usr-004",
+      "printedByName": "Lisa Fischer",
+      "printerName": "Zebra ZD420 - Lager",
+      "createdAt": "2026-02-20T15:30:00Z"
+    },
+    {
+      "id": "pj-002",
+      "templateId": "lbl-002",
+      "templateName": "Produktlabel Klein",
+      "taskId": "task-001",
+      "itemId": "item-001",
+      "quantity": 320,
+      "status": "completed",
+      "printedBy": "usr-003",
+      "printedByName": "Tom Weber",
+      "printerName": "Zebra ZD420 - Produktion",
+      "createdAt": "2026-03-27T09:00:00Z"
+    },
+    {
+      "templateId": "lbl-001",
+      "templateName": "Versandetikett Standard",
+      "taskId": "task-001",
+      "itemId": "item-001",
+      "quantity": 1,
+      "printedBy": "usr-001",
+      "printedByName": "Max Müller",
+      "printerName": "Zebra ZD420 - Produktion",
+      "status": "completed",
+      "id": "pj-mn8voz71-s4q5k",
+      "createdAt": "2026-03-27T12:29:26.701Z"
+    }
+  ],
+  "auditLog": [
+    {
+      "id": "audit-001",
+      "timestamp": "2026-03-27T08:00:00Z",
+      "userId": "usr-002",
+      "userName": "Anna Schmidt",
+      "entityType": "task",
+      "entityId": "task-006",
+      "action": "created",
+      "changes": "Eilauftrag erstellt: 100 Starter Kits"
+    },
+    {
+      "id": "audit-002",
+      "timestamp": "2026-03-27T09:30:00Z",
+      "userId": "usr-003",
+      "userName": "Tom Weber",
+      "entityType": "task",
+      "entityId": "task-001",
+      "action": "updated",
+      "changes": "Fortschritt: 200 → 320 Stück"
+    },
+    {
+      "id": "audit-003",
+      "timestamp": "2026-03-27T09:00:00Z",
+      "userId": "usr-003",
+      "userName": "Tom Weber",
+      "entityType": "print",
+      "entityId": "pj-002",
+      "action": "printed",
+      "changes": "320x Produktlabel Klein gedruckt"
+    }
+  ],
+  "settings": {
+    "general": {
+      "companyName": "ePerformances GmbH",
+      "appTitle": "Kitting & CoPack Suite",
+      "language": "de",
+      "timezone": "Europe/Berlin",
+      "dateFormat": "DD.MM.YYYY"
+    },
+    "tasks": {
+      "statuses": [
+        {
+          "value": "open",
+          "label": "Offen",
+          "color": "#64748b"
+        },
+        {
+          "value": "planned",
+          "label": "Geplant",
+          "color": "#8b5cf6"
+        },
+        {
+          "value": "in-progress",
+          "label": "In Bearbeitung",
+          "color": "#2563eb"
+        },
+        {
+          "value": "paused",
+          "label": "Pausiert",
+          "color": "#f59e0b"
+        },
+        {
+          "value": "completed",
+          "label": "Abgeschlossen",
+          "color": "#10b981"
+        },
+        {
+          "value": "blocked",
+          "label": "Gesperrt",
+          "color": "#ef4444"
+        }
+      ],
+      "priorities": [
+        {
+          "value": "critical",
+          "label": "Kritisch",
+          "color": "#ef4444"
+        },
+        {
+          "value": "high",
+          "label": "Hoch",
+          "color": "#f97316"
+        },
+        {
+          "value": "medium",
+          "label": "Mittel",
+          "color": "#eab308"
+        },
+        {
+          "value": "low",
+          "label": "Niedrig",
+          "color": "#22c55e"
+        },
+        {
+          "value": "none",
+          "label": "Keine",
+          "color": "#94a3b8"
+        }
+      ],
+      "defaultStatus": "open",
+      "defaultPriority": "medium",
+      "batchPrefix": "CH-"
+    },
+    "labels": {
+      "defaultPrinterName": "Zebra ZD420 - Produktion",
+      "printerIp": "192.168.1.100",
+      "printerPort": 9100,
+      "defaultLabelSize": "100x150mm"
+    },
+    "api": {
+      "enabled": false,
+      "apiKey": "ks-demo-api-key-2026",
+      "webhookUrl": "",
+      "webhookEvents": [
+        "task.created",
+        "task.completed",
+        "item.updated"
+      ]
+    },
+    "system": {
+      "dataBackend": "flatfile",
+      "debugMode": true,
+      "logLevel": "info"
+    },
+    "theme": {
+      "primaryColor": "#0ae6cc"
+    }
+  }
+}

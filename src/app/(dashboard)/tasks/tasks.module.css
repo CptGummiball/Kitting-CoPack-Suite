@@ -1,0 +1,27 @@
+.page {
+  animation: fadeIn 0.3s ease;
+}
+
+.taskTitleCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.taskTitle {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.taskSubtext {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.progressCell {
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}

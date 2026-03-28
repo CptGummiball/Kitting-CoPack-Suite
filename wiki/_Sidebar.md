@@ -1,0 +1,10 @@
+- [Startseite](Home)
+- [Installation & Setup](Installation)
+- **Module**
+  - [Artikelverwaltung](Items)
+  - [Label Editor](Label-Editor)
+  - [Print Center](Print-Center)
+  - [Aufgaben & Kitting](Tasks)
+  - [Benutzer & Rollen](User-Management)
+- **Entwicklung**
+  - [Features & Architektur](Features)
