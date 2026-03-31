@@ -4,7 +4,7 @@
 
 // ---- Enums ----
 
-export type TaskStatus = 'open' | 'planned' | 'in-progress' | 'paused' | 'completed' | 'blocked';
+export type TaskStatus = 'open' | 'planned' | 'in-progress' | 'paused' | 'completed' | 'blocked' | 'handed-to-warehouse' | 'stored';
 export type TaskPriority = 'critical' | 'high' | 'medium' | 'low' | 'none';
 export type UserRole = 'admin' | 'supervisor' | 'user';
 export type UserStatus = 'active' | 'inactive';
@@ -70,6 +70,7 @@ export interface User {
   status: UserStatus;
   permissions: Permission[];
   avatar?: string;
+  currentWorkstationId?: string;
   createdAt: string;
   updatedAt: string;
   lastLoginAt?: string;
@@ -116,6 +117,14 @@ export interface Item {
   changeHistory: AuditEntry[];
 }
 
+export interface TimelineEntry {
+  step: 'created' | 'in-progress' | 'completed' | 'handed-to-warehouse' | 'stored';
+  label: string;
+  timestamp?: string;
+  userId?: string;
+  userName?: string;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -133,6 +142,7 @@ export interface Task {
   assignedToUser?: User;
   specialInstructions: string;
   progress: number; // 0-100
+  timeline: TimelineEntry[];
   createdAt: string;
   updatedAt: string;
   createdBy: string;
@@ -157,6 +167,18 @@ export interface AuditEntry {
   entityId: string;
   action: string;
   changes: string;
+}
+
+// ---- Workstation / Produktionsplatz ----
+
+export interface Workstation {
+  id: string;
+  name: string;
+  description?: string;
+  printerName: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ---- Label System ----
@@ -224,6 +246,26 @@ export interface AppSettings {
     printerIp: string;
     printerPort: number;
     defaultLabelSize: string;
+  };
+  qzTray: {
+    enabled: boolean;
+    host: string;
+    port: number;
+    useCertificate: boolean;
+    certificateData?: string;
+  };
+  weclapp: {
+    enabled: boolean;
+    tenantUrl: string;
+    apiToken: string;
+    syncArticles: boolean;
+    syncOrders: boolean;
+    lastSyncAt?: string;
+  };
+  wms: {
+    enabled: boolean;
+    webhookSecret?: string;
+    autoConfirmHandover: boolean;
   };
   api: {
     enabled: boolean;
@@ -300,6 +342,13 @@ export interface DataRepository {
   // Audit
   getAuditLog(): Promise<AuditEntry[]>;
   createAuditEntry(entry: Omit<AuditEntry, 'id' | 'timestamp'>): Promise<AuditEntry>;
+
+  // Workstations
+  getWorkstations(): Promise<Workstation[]>;
+  getWorkstation(id: string): Promise<Workstation | null>;
+  createWorkstation(ws: Omit<Workstation, 'id' | 'createdAt' | 'updatedAt'>): Promise<Workstation>;
+  updateWorkstation(id: string, updates: Partial<Workstation>): Promise<Workstation | null>;
+  deleteWorkstation(id: string): Promise<boolean>;
 
   // Settings
   getSettings(): Promise<AppSettings>;

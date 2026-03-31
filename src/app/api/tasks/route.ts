@@ -35,6 +35,15 @@ export async function POST(request: Request) {
       body.batchNumber = `${prefix}${yy}${mm}-${increment}`;
     }
 
+    // Initialize timeline
+    body.timeline = [
+      { step: 'created', label: 'Auftrag erstellt', timestamp: new Date().toISOString(), userId: body.createdBy, userName: '' },
+      { step: 'in-progress', label: 'In Bearbeitung' },
+      { step: 'completed', label: 'Fertiggestellt' },
+      { step: 'handed-to-warehouse', label: 'An Lager Übergeben' },
+      { step: 'stored', label: 'Eingelagert' },
+    ];
+
     const task = await db.createTask(body);
     return Response.json(task, { status: 201 });
   } catch {

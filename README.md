@@ -13,9 +13,8 @@ Die **Kitting & CoPack Suite** ist eine moderne, skalierbare Web-Applikation zur
 
 ## Dokumentation
 
-Die vollständige Dokumentation für dieses Projekt finden Sie in unserem **[GitHub Wiki](https://github.com/DEIN_BENUTZERNAME/DEIN_REPO/wiki)**.
+Die vollständige Dokumentation für dieses Projekt finden Sie in unserem **[GitHub Wiki](https://github.com/DEIN_BENUTZERNAME/Kitting-CoPack-Suite/wiki)**.
 
-*(Wenn du dieses Repository lokal geklont hast, findest du die Wiki-Dateien auch gebündelt im Ordner `wiki/` innerhalb dieses Repositories. Du kannst diesen Ordner in dein separates `.wiki.git`-Repo pushen.)*
 
 ## Lokale Installation & Entwicklung
 

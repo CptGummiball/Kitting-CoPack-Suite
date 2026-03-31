@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import type {
   DataRepository, Task, Item, User, LabelTemplate,
-  PrintJob, AuditEntry, AppSettings
+  PrintJob, AuditEntry, AppSettings, Workstation
 } from '../types';
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'demo-data.json');
@@ -14,6 +14,7 @@ interface DemoData {
   labelTemplates: LabelTemplate[];
   printJobs: PrintJob[];
   auditLog: AuditEntry[];
+  workstations: Workstation[];
   settings: AppSettings;
 }
 
@@ -286,10 +287,58 @@ export const flatFileRepository: DataRepository = {
       general: { ...data.settings.general, ...(updates.general || {}) },
       tasks: { ...data.settings.tasks, ...(updates.tasks || {}) },
       labels: { ...data.settings.labels, ...(updates.labels || {}) },
+      qzTray: { ...data.settings.qzTray, ...(updates.qzTray || {}) },
+      weclapp: { ...data.settings.weclapp, ...(updates.weclapp || {}) },
+      wms: { ...data.settings.wms, ...(updates.wms || {}) },
       api: { ...data.settings.api, ...(updates.api || {}) },
       system: { ...data.settings.system, ...(updates.system || {}) },
     };
     await writeData(data);
     return data.settings;
+  },
+
+  // ---- Workstations ----
+  async getWorkstations() {
+    const data = await readData();
+    return data.workstations || [];
+  },
+
+  async getWorkstation(id: string) {
+    const data = await readData();
+    return (data.workstations || []).find(w => w.id === id) || null;
+  },
+
+  async createWorkstation(wsData) {
+    const data = await readData();
+    if (!data.workstations) data.workstations = [];
+    const ws: Workstation = {
+      ...wsData,
+      id: generateId('ws'),
+      createdAt: now(),
+      updatedAt: now(),
+    };
+    data.workstations.push(ws);
+    await writeData(data);
+    return ws;
+  },
+
+  async updateWorkstation(id: string, updates: Partial<Workstation>) {
+    const data = await readData();
+    if (!data.workstations) return null;
+    const index = data.workstations.findIndex(w => w.id === id);
+    if (index === -1) return null;
+    data.workstations[index] = { ...data.workstations[index], ...updates, updatedAt: now() };
+    await writeData(data);
+    return data.workstations[index];
+  },
+
+  async deleteWorkstation(id: string) {
+    const data = await readData();
+    if (!data.workstations) return false;
+    const index = data.workstations.findIndex(w => w.id === id);
+    if (index === -1) return false;
+    data.workstations.splice(index, 1);
+    await writeData(data);
+    return true;
   },
 };

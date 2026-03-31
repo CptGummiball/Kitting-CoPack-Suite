@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import styles from './topbar.module.css';
 
 export default function Topbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, workstation, clearWorkstation, isAdmin } = useAuth();
   const router = useRouter();
 
   if (!user) return null;
@@ -28,7 +28,30 @@ export default function Topbar() {
   return (
     <header className={styles.topbar}>
       <div className={styles.left}>
-        {/* Breadcrumb / search placeholder */}
+        {/* Workstation indicator */}
+        {workstation && !isAdmin && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span style={{ fontWeight: 'var(--font-weight-medium)' }}>{workstation.name}</span>
+            <span style={{ color: 'var(--color-text-tertiary)', fontSize: 'var(--font-size-xs)' }}>·</span>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-tertiary)' }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ display: 'inline', verticalAlign: '-1px', marginRight: '3px' }}>
+                <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+              </svg>
+              {workstation.printerName}
+            </span>
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={clearWorkstation}
+              title="Platz wechseln"
+              style={{ padding: '2px 8px', minHeight: 'unset', fontSize: 'var(--font-size-xs)' }}
+            >
+              Wechseln
+            </button>
+          </div>
+        )}
       </div>
       <div className={styles.right}>
         <div className={styles.userInfo}>

@@ -71,6 +71,12 @@ const NAV_SECTIONS: { title: string; items: NavItem[] }[] = [
         supervisorOnly: true,
       },
       {
+        label: 'Produktionsplätze',
+        href: '/workstations',
+        icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
+        adminOnly: true,
+      },
+      {
         label: 'Rollen & Rechte',
         href: '/roles',
         icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>,

@@ -38,6 +38,8 @@ export default function DashboardPage() {
       'paused': { label: 'Pausiert', className: 'badge badge-dot badge-paused' },
       'completed': { label: 'Abgeschlossen', className: 'badge badge-dot badge-completed' },
       'blocked': { label: 'Gesperrt', className: 'badge badge-dot badge-blocked' },
+      'handed-to-warehouse': { label: 'An Lager Übergeben', className: 'badge badge-dot badge-handed-to-warehouse' },
+      'stored': { label: 'Eingelagert', className: 'badge badge-dot badge-stored' },
     };
     const s = map[status] || map['open'];
     return <span className={s.className}>{s.label}</span>;

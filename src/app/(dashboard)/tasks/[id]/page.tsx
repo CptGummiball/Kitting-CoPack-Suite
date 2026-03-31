@@ -2,13 +2,33 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth/auth-context';
-import type { Task, Item } from '@/lib/data/types';
+import type { Task, Item, TimelineEntry } from '@/lib/data/types';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './task-detail.module.css';
 
+const TIMELINE_STEPS: { step: TimelineEntry['step']; label: string }[] = [
+  { step: 'created', label: 'Auftrag erstellt' },
+  { step: 'in-progress', label: 'In Bearbeitung' },
+  { step: 'completed', label: 'Fertiggestellt' },
+  { step: 'handed-to-warehouse', label: 'An Lager Übergeben' },
+  { step: 'stored', label: 'Eingelagert' },
+];
+
+function getTimelineState(timeline: TimelineEntry[], step: string): 'completed' | 'active' | 'pending' {
+  const entry = timeline.find(t => t.step === step);
+  if (!entry?.timestamp) return 'pending';
+  
+  // Find the last completed step
+  const completedSteps = timeline.filter(t => t.timestamp);
+  const lastCompleted = completedSteps[completedSteps.length - 1];
+  if (lastCompleted?.step === step) return 'active';
+  
+  return 'completed';
+}
+
 export default function TaskDetailPage() {
-  const { user } = useAuth();
+  const { user, isSupervisor } = useAuth();
   const params = useParams();
   const router = useRouter();
   const [task, setTask] = useState<Task | null>(null);
@@ -56,6 +76,7 @@ export default function TaskDetailPage() {
   }
 
   const item = task.item as Item;
+  const timeline = task.timeline || [];
 
   const statusBadge = (status: string) => {
     const map: Record<string, { label: string; className: string }> = {
@@ -65,6 +86,8 @@ export default function TaskDetailPage() {
       'paused': { label: 'Pausiert', className: 'badge badge-dot badge-paused' },
       'completed': { label: 'Abgeschlossen', className: 'badge badge-dot badge-completed' },
       'blocked': { label: 'Gesperrt', className: 'badge badge-dot badge-blocked' },
+      'handed-to-warehouse': { label: 'An Lager Übergeben', className: 'badge badge-dot badge-handed-to-warehouse' },
+      'stored': { label: 'Eingelagert', className: 'badge badge-dot badge-stored' },
     };
     const s = map[status] || map['open'];
     return <span className={s.className} style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px' }}>{s.label}</span>;
@@ -90,11 +113,58 @@ export default function TaskDetailPage() {
       });
       if (res.ok) {
         const updated = await res.json();
-        setTask({ ...task, status: updated.status });
+        setTask({ ...task, ...updated });
       }
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const handleHandToWarehouse = async () => {
+    try {
+      const res = await fetch('/api/wms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          taskId: task.id,
+          userId: user.id,
+          userName: user.name,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setTask({ ...task, ...data.task });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleConfirmStorage = async () => {
+    try {
+      const res = await fetch(`/api/wms/${task.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          userName: user.name,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setTask({ ...task, ...data.task });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const formatTimestamp = (ts?: string) => {
+    if (!ts) return '';
+    return new Date(ts).toLocaleString('de-DE', {
+      day: '2-digit', month: '2-digit', year: '2-digit',
+      hour: '2-digit', minute: '2-digit',
+    });
   };
 
   return (
@@ -114,28 +184,76 @@ export default function TaskDetailPage() {
           </div>
         </div>
         <div className={styles.actions}>
-          {task.status !== 'completed' && (
+          {(task.status === 'open' || task.status === 'planned' || task.status === 'paused') && (
             <button 
-              className={`btn ${task.status === 'in-progress' ? 'btn-secondary' : 'btn-primary'}`}
-              onClick={() => updateStatus(task.status === 'in-progress' ? 'paused' : 'in-progress')}
+              className="btn btn-primary"
+              onClick={() => updateStatus('in-progress')}
             >
-              {task.status === 'in-progress' ? (
-                <><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Pausieren</>
-              ) : (
-                <><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Starten</>
-              )}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Starten
             </button>
           )}
           {task.status === 'in-progress' && (
-            <button className="btn btn-success" onClick={() => updateStatus('completed')}>
+            <>
+              <button 
+                className="btn btn-secondary"
+                onClick={() => updateStatus('paused')}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                Pausieren
+              </button>
+              <button className="btn btn-success" onClick={() => updateStatus('completed')}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Abschließen
+              </button>
+            </>
+          )}
+          {task.status === 'completed' && (
+            <button className="btn btn-primary" onClick={handleHandToWarehouse}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+              An Lager übergeben
+            </button>
+          )}
+          {task.status === 'handed-to-warehouse' && isSupervisor && (
+            <button className="btn btn-success" onClick={handleConfirmStorage}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              Abschließen
+              Einlagerung bestätigen
             </button>
           )}
           <Link href={`/print-center?taskId=${task.id}`} className="btn btn-secondary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             Labels
           </Link>
+        </div>
+      </div>
+
+      {/* Timeline */}
+      <div className="card" style={{ marginBottom: 'var(--space-6)' }}>
+        <div className="timeline">
+          {TIMELINE_STEPS.map(({ step, label }) => {
+            const entry = timeline.find(t => t.step === step);
+            const state = getTimelineState(timeline, step);
+            return (
+              <div key={step} className={`timeline-step ${state}`}>
+                <div className="timeline-step-dot">
+                  {state === 'completed' ? (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  ) : state === 'active' ? (
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />
+                  ) : (
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-border)' }} />
+                  )}
+                </div>
+                <div className="timeline-step-label">{label}</div>
+                {entry?.timestamp && (
+                  <div className="timeline-step-time">{formatTimestamp(entry.timestamp)}</div>
+                )}
+                {entry?.userName && entry?.timestamp && (
+                  <div className="timeline-step-time" style={{ marginTop: 0 }}>{entry.userName}</div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 

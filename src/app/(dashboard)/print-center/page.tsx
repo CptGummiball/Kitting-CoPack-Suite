@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth/auth-context';
 import type { Task, Item, LabelTemplate } from '@/lib/data/types';
 import { useSearchParams } from 'next/navigation';
+import { listPrinters, printZpl } from '@/lib/qz-tray';
 import styles from './print-center.module.css';
 
 export default function PrintCenterPage() {
@@ -20,6 +21,12 @@ export default function PrintCenterPage() {
   const [quantity, setQuantity] = useState(1);
   const [isPrinting, setIsPrinting] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // QZ Tray State
+  const [printMethod, setPrintMethod] = useState<'server' | 'local'>('server');
+  const [localPrinters, setLocalPrinters] = useState<string[]>([]);
+  const [selectedLocalPrinter, setSelectedLocalPrinter] = useState('');
+  const [loadingPrinters, setLoadingPrinters] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -57,31 +64,102 @@ export default function PrintCenterPage() {
     }
   };
 
+  useEffect(() => {
+    if (printMethod === 'local' && localPrinters.length === 0) {
+      setLoadingPrinters(true);
+      listPrinters().then(printers => {
+        setLocalPrinters(printers);
+        if (printers.length > 0) {
+          // preselect something that might be a zebra
+          const zebra = printers.find(p => p.toLowerCase().includes('zebra') || p.toLowerCase().includes('zpl'));
+          setSelectedLocalPrinter(zebra || printers[0]);
+        }
+      }).catch(err => {
+        console.error('QZ Tray fetch error', err);
+        alert('Fehler beim Verbinden mit QZ Tray. Ist es gestartet?');
+      }).finally(() => {
+        setLoadingPrinters(false);
+      });
+    }
+  }, [printMethod, localPrinters.length]);
+
   const handlePrint = async () => {
     if (!selectedTemplate || quantity < 1) return;
     setIsPrinting(true);
     setSuccess(false);
 
     try {
-      const res = await fetch('/api/print', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          templateId: selectedTemplate.id,
-          templateName: selectedTemplate.name,
-          taskId: selectedTask?.id,
-          itemId: selectedTask?.itemId,
-          quantity,
-          printedBy: user?.id,
-          printedByName: user?.name,
-          printerName: "Zebra ZD420 - Produktion"
-        })
-      });
+      if (printMethod === 'local') {
+        if (!selectedLocalPrinter) {
+          alert('Kein lokaler Drucker ausgewählt.');
+          setIsPrinting(false);
+          return;
+        }
 
-      if (res.ok) {
+        // Generate final zpl by replacing placeholders
+        let zpl = selectedTemplate.zplTemplate;
+        selectedTemplate.fields.forEach(field => {
+          const value = field.dataSource === 'item.sku' ? (selectedTask?.item?.sku || '') :
+                        field.dataSource === 'item.ean' ? (selectedTask?.item?.ean || '') :
+                        field.dataSource === 'item.name' ? (selectedTask?.item?.name || '') :
+                        field.dataSource === 'task.referenceId' ? (selectedTask?.referenceId || '') :
+                        field.dataSource === 'task.batchNumber' ? (selectedTask?.batchNumber || '') :
+                        field.dataSource === 'date' ? new Date().toLocaleDateString('de-DE') :
+                        undefined;
+                        
+          if (value !== undefined) {
+             zpl = zpl.split(field.dataSource).join(value);
+          }
+        });
+
+        // Send multiple jobs or let zpl handle quantity if we added ^PQ
+        // Normally ^PQ is added before ^XZ, but we can just loop for now
+        for (let i = 0; i < quantity; i++) {
+          await printZpl(selectedLocalPrinter, zpl);
+        }
+        
+        // Also log this as a completed job via API if we want auditing
+        await fetch('/api/print', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            templateId: selectedTemplate.id,
+            templateName: selectedTemplate.name,
+            taskId: selectedTask?.id,
+            itemId: selectedTask?.itemId,
+            quantity,
+            printedBy: user?.id,
+            printedByName: user?.name,
+            printerName: selectedLocalPrinter
+          })
+        });
+
         setSuccess(true);
         setTimeout(() => setSuccess(false), 3000);
+      } else {
+        const res = await fetch('/api/print', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            templateId: selectedTemplate.id,
+            templateName: selectedTemplate.name,
+            taskId: selectedTask?.id,
+            itemId: selectedTask?.itemId,
+            quantity,
+            printedBy: user?.id,
+            printedByName: user?.name,
+            printerName: "Zebra ZD420 - Produktion (Server-Simulation)"
+          })
+        });
+
+        if (res.ok) {
+          setSuccess(true);
+          setTimeout(() => setSuccess(false), 3000);
+        }
       }
+    } catch (err: any) {
+      console.error(err);
+      alert('Fehler beim Drucken: ' + err.message);
     } finally {
       setIsPrinting(false);
     }
@@ -162,6 +240,54 @@ export default function PrintCenterPage() {
               </div>
             </div>
 
+            <h3 className="card-title" style={{ marginBottom: 'var(--space-4)', marginTop: 'var(--space-2)' }}>Drucker</h3>
+            
+            <div className="form-group" style={{ marginBottom: 'var(--space-3)' }}>
+              <div style={{ display: 'flex', gap: '16px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input type="radio" name="printMethod" checked={printMethod === 'local'} onChange={() => setPrintMethod('local')} />
+                  Direkt Druck (QZ Tray)
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input type="radio" name="printMethod" checked={printMethod === 'server'} onChange={() => setPrintMethod('server')} />
+                  Server (Print-Node API)
+                </label>
+              </div>
+            </div>
+
+            {printMethod === 'local' && (
+              <div className="form-group" style={{ marginBottom: 'var(--space-6)' }}>
+                <label className="form-label">Lokaler Drucker (über QZ Tray)</label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <select 
+                    className="form-select"
+                    value={selectedLocalPrinter}
+                    onChange={e => setSelectedLocalPrinter(e.target.value)}
+                    disabled={loadingPrinters}
+                  >
+                    {!loadingPrinters && localPrinters.length === 0 && (
+                      <option value="">Keine Drucker gefunden</option>
+                    )}
+                    {localPrinters.map(p => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                  <button 
+                    className="btn btn-secondary" 
+                    onClick={() => {
+                      setLoadingPrinters(true);
+                      listPrinters().then(printers => setLocalPrinters(printers)).finally(() => setLoadingPrinters(false));
+                    }}
+                    disabled={loadingPrinters}
+                    title="Drucker aktualisieren"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                  </button>
+                </div>
+              </div>
+            )}
+
+
             <button 
               className="btn btn-primary btn-lg" 
               style={{ width: '100%' }}
@@ -174,7 +300,7 @@ export default function PrintCenterPage() {
 
             {success && (
               <div className="toast toast-success" style={{ position: 'relative', top: 0, right: 0, marginTop: 'var(--space-4)' }}>
-                Druckauftrag erfolgreich an "Zebra ZD420" gesendet.
+                Druckauftrag erfolgreich {printMethod === 'local' ? `an "${selectedLocalPrinter}" gesendet.` : 'an Server übermittelt.'}
               </div>
             )}
           </div>

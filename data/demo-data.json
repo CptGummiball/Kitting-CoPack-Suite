@@ -509,6 +509,13 @@
       "assignedTo": "usr-003",
       "specialInstructions": "Kunde hat spezielle Karten angefordert – Charge 'Karten-Sonder' verwenden.",
       "progress": 64,
+      "timeline": [
+        { "step": "created", "label": "Auftrag erstellt", "timestamp": "2026-03-20T08:00:00Z", "userId": "usr-001", "userName": "Max Müller" },
+        { "step": "in-progress", "label": "In Bearbeitung", "timestamp": "2026-03-25T07:00:00Z", "userId": "usr-003", "userName": "Tom Weber" },
+        { "step": "completed", "label": "Fertiggestellt" },
+        { "step": "handed-to-warehouse", "label": "An Lager Übergeben" },
+        { "step": "stored", "label": "Eingelagert" }
+      ],
       "createdAt": "2026-03-20T08:00:00Z",
       "updatedAt": "2026-03-27T09:30:00Z",
       "createdBy": "usr-001",
@@ -561,6 +568,13 @@
       "assignedTo": "usr-004",
       "specialInstructions": "",
       "progress": 0,
+      "timeline": [
+        { "step": "created", "label": "Auftrag erstellt", "timestamp": "2026-03-22T10:00:00Z", "userId": "usr-002", "userName": "Anna Schmidt" },
+        { "step": "in-progress", "label": "In Bearbeitung" },
+        { "step": "completed", "label": "Fertiggestellt" },
+        { "step": "handed-to-warehouse", "label": "An Lager Übergeben" },
+        { "step": "stored", "label": "Eingelagert" }
+      ],
       "createdAt": "2026-03-22T10:00:00Z",
       "updatedAt": "2026-03-22T10:00:00Z",
       "createdBy": "usr-002",
@@ -588,6 +602,13 @@
       "completedQuantity": 0,
       "specialInstructions": "Display muss PoS-ready sein. Besondere QC bei Shrink-Folie durchführen.",
       "progress": 0,
+      "timeline": [
+        { "step": "created", "label": "Auftrag erstellt", "timestamp": "2026-03-25T10:00:00Z", "userId": "usr-001", "userName": "Max Müller" },
+        { "step": "in-progress", "label": "In Bearbeitung" },
+        { "step": "completed", "label": "Fertiggestellt" },
+        { "step": "handed-to-warehouse", "label": "An Lager Übergeben" },
+        { "step": "stored", "label": "Eingelagert" }
+      ],
       "createdAt": "2026-03-25T10:00:00Z",
       "updatedAt": "2026-03-25T10:00:00Z",
       "createdBy": "usr-001",
@@ -616,6 +637,13 @@
       "assignedTo": "usr-003",
       "specialInstructions": "Jedes Multimeter einzeln prüfen – Prüfprotokoll ausfüllen.",
       "progress": 0,
+      "timeline": [
+        { "step": "created", "label": "Auftrag erstellt", "timestamp": "2026-03-26T08:00:00Z", "userId": "usr-001", "userName": "Max Müller" },
+        { "step": "in-progress", "label": "In Bearbeitung" },
+        { "step": "completed", "label": "Fertiggestellt" },
+        { "step": "handed-to-warehouse", "label": "An Lager Übergeben" },
+        { "step": "stored", "label": "Eingelagert" }
+      ],
       "createdAt": "2026-03-26T08:00:00Z",
       "updatedAt": "2026-03-26T08:00:00Z",
       "createdBy": "usr-001",
@@ -644,6 +672,13 @@
       "assignedTo": "usr-004",
       "specialInstructions": "",
       "progress": 100,
+      "timeline": [
+        { "step": "created", "label": "Auftrag erstellt", "timestamp": "2026-02-10T10:00:00Z", "userId": "usr-001", "userName": "Max Müller" },
+        { "step": "in-progress", "label": "In Bearbeitung", "timestamp": "2026-02-15T07:00:00Z", "userId": "usr-004", "userName": "Lisa Fischer" },
+        { "step": "completed", "label": "Fertiggestellt", "timestamp": "2026-02-20T16:00:00Z", "userId": "usr-004", "userName": "Lisa Fischer" },
+        { "step": "handed-to-warehouse", "label": "An Lager Übergeben", "timestamp": "2026-02-21T08:00:00Z", "userId": "usr-002", "userName": "Anna Schmidt" },
+        { "step": "stored", "label": "Eingelagert", "timestamp": "2026-02-21T14:00:00Z", "userId": "usr-001", "userName": "Max Müller" }
+      ],
       "createdAt": "2026-02-10T10:00:00Z",
       "updatedAt": "2026-02-20T16:00:00Z",
       "createdBy": "usr-001",
@@ -687,6 +722,13 @@
       "completedQuantity": 0,
       "specialInstructions": "EILAUFTRAG – sofort bearbeiten! Versand am 28.03. zwingend.",
       "progress": 0,
+      "timeline": [
+        { "step": "created", "label": "Auftrag erstellt", "timestamp": "2026-03-27T08:00:00Z", "userId": "usr-002", "userName": "Anna Schmidt" },
+        { "step": "in-progress", "label": "In Bearbeitung" },
+        { "step": "completed", "label": "Fertiggestellt" },
+        { "step": "handed-to-warehouse", "label": "An Lager Übergeben" },
+        { "step": "stored", "label": "Eingelagert" }
+      ],
       "createdAt": "2026-03-27T08:00:00Z",
       "updatedAt": "2026-03-27T08:00:00Z",
       "createdBy": "usr-002",
@@ -715,6 +757,13 @@
       "assignedTo": "usr-004",
       "specialInstructions": "Produktion pausiert – Sonderkarten sind in Nachbestellung.",
       "progress": 30,
+      "timeline": [
+        { "step": "created", "label": "Auftrag erstellt", "timestamp": "2026-03-18T08:00:00Z", "userId": "usr-001", "userName": "Max Müller" },
+        { "step": "in-progress", "label": "In Bearbeitung", "timestamp": "2026-03-20T07:00:00Z", "userId": "usr-004", "userName": "Lisa Fischer" },
+        { "step": "completed", "label": "Fertiggestellt" },
+        { "step": "handed-to-warehouse", "label": "An Lager Übergeben" },
+        { "step": "stored", "label": "Eingelagert" }
+      ],
       "createdAt": "2026-03-18T08:00:00Z",
       "updatedAt": "2026-03-24T10:00:00Z",
       "createdBy": "usr-001",
@@ -984,6 +1033,35 @@
       "changes": "320x Produktlabel Klein gedruckt"
     }
   ],
+  "workstations": [
+    {
+      "id": "ws-001",
+      "name": "Kitting Linie A",
+      "description": "Hauptproduktionslinie für Welcome Kits und Starter Kits",
+      "printerName": "Zebra ZD420 - Produktion",
+      "isActive": true,
+      "createdAt": "2026-01-15T08:00:00Z",
+      "updatedAt": "2026-01-15T08:00:00Z"
+    },
+    {
+      "id": "ws-002",
+      "name": "CoPack Station B",
+      "description": "CoPack-Bereich für Bundle-Verpackungen und Display-Aufbauten",
+      "printerName": "Zebra ZT411 - Warenausgang",
+      "isActive": true,
+      "createdAt": "2026-02-01T08:00:00Z",
+      "updatedAt": "2026-02-01T08:00:00Z"
+    },
+    {
+      "id": "ws-003",
+      "name": "QC / Verpackung C",
+      "description": "Qualitätskontrolle und Endverpackung",
+      "printerName": "Zebra ZD420 - Produktion",
+      "isActive": true,
+      "createdAt": "2026-02-15T08:00:00Z",
+      "updatedAt": "2026-02-15T08:00:00Z"
+    }
+  ],
   "settings": {
     "general": {
       "companyName": "ePerformances GmbH",
@@ -1023,6 +1101,16 @@
           "value": "blocked",
           "label": "Gesperrt",
           "color": "#ef4444"
+        },
+        {
+          "value": "handed-to-warehouse",
+          "label": "An Lager Übergeben",
+          "color": "#6366f1"
+        },
+        {
+          "value": "stored",
+          "label": "Eingelagert",
+          "color": "#06b6d4"
         }
       ],
       "priorities": [
@@ -1054,13 +1142,33 @@
       ],
       "defaultStatus": "open",
       "defaultPriority": "medium",
-      "batchPrefix": "CH-"
+      "batchPrefix": "eP-"
     },
     "labels": {
       "defaultPrinterName": "Zebra ZD420 - Produktion",
       "printerIp": "192.168.1.100",
       "printerPort": 9100,
       "defaultLabelSize": "100x150mm"
+    },
+    "qzTray": {
+      "enabled": false,
+      "host": "localhost",
+      "port": 8181,
+      "useCertificate": false,
+      "certificateData": ""
+    },
+    "weclapp": {
+      "enabled": false,
+      "tenantUrl": "",
+      "apiToken": "",
+      "syncArticles": true,
+      "syncOrders": true,
+      "lastSyncAt": null
+    },
+    "wms": {
+      "enabled": false,
+      "webhookSecret": "",
+      "autoConfirmHandover": false
     },
     "api": {
       "enabled": false,

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import type { User, Permission } from '@/lib/data/types';
+import type { User, Permission, Workstation } from '@/lib/data/types';
 
 interface AuthContextType {
   user: User | null;
@@ -11,6 +11,10 @@ interface AuthContextType {
   hasPermission: (permission: Permission) => boolean;
   isAdmin: boolean;
   isSupervisor: boolean;
+  workstation: Workstation | null;
+  needsWorkstation: boolean;
+  selectWorkstation: (ws: Workstation) => void;
+  clearWorkstation: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [workstation, setWorkstation] = useState<Workstation | null>(null);
 
   useEffect(() => {
     // Restore session from localStorage
@@ -27,6 +32,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(JSON.parse(stored));
       } catch {
         localStorage.removeItem('kcs-session');
+      }
+    }
+    // Restore workstation
+    const storedWs = localStorage.getItem('kcs-workstation');
+    if (storedWs) {
+      try {
+        setWorkstation(JSON.parse(storedWs));
+      } catch {
+        localStorage.removeItem('kcs-workstation');
       }
     }
     setIsLoading(false);
@@ -51,7 +65,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(() => {
     setUser(null);
+    setWorkstation(null);
     localStorage.removeItem('kcs-session');
+    localStorage.removeItem('kcs-workstation');
   }, []);
 
   const hasPermission = useCallback((permission: Permission): boolean => {
@@ -60,11 +76,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return user.permissions.includes(permission);
   }, [user]);
 
+  const selectWorkstation = useCallback((ws: Workstation) => {
+    setWorkstation(ws);
+    localStorage.setItem('kcs-workstation', JSON.stringify(ws));
+  }, []);
+
+  const clearWorkstation = useCallback(() => {
+    setWorkstation(null);
+    localStorage.removeItem('kcs-workstation');
+  }, []);
+
   const isAdmin = user?.role === 'admin';
   const isSupervisor = user?.role === 'supervisor' || isAdmin;
+  // Non-admin users must select a workstation
+  const needsWorkstation = !!user && !isAdmin && !workstation;
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, hasPermission, isAdmin, isSupervisor }}>
+    <AuthContext.Provider value={{
+      user,
+      isLoading,
+      login,
+      logout,
+      hasPermission,
+      isAdmin,
+      isSupervisor,
+      workstation,
+      needsWorkstation,
+      selectWorkstation,
+      clearWorkstation,
+    }}>
       {children}
     </AuthContext.Provider>
   );
