@@ -26,6 +26,30 @@ Die **Kitting & CoPack Suite** ist eine moderne, skalierbare Web-Applikation zur
 
 ---
 
+## 📸 Screenshots
+
+### Login mit QR-Code-Scanner
+
+![Login-Seite mit E-Mail/Passwort und QR-Code-Scanner](docs/screenshots/login.png)
+
+### Dashboard — Übersicht & Statistiken
+
+![Dashboard mit Statistiken, dringenden Tasks und Fälligkeiten](docs/screenshots/dashboard.png)
+
+### Auftragsübersicht (Tasks)
+
+![Alle Tasks mit Status, Priorität und Fortschritt](docs/screenshots/tasks.png)
+
+### Task-Detail mit 5-Schritt-Timeline
+
+![Task-Detailansicht mit visueller Timeline und Aktionsbuttons](docs/screenshots/task-detail.png)
+
+### Globale Einstellungen & Integrationen
+
+![Admin-Einstellungen mit QZ Tray, Weclapp, WMS und Workflow-Konfiguration](docs/screenshots/settings.png)
+
+---
+
 ## 🏗️ Architektur
 
 ```
