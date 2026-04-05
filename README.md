@@ -127,34 +127,5 @@ Im Admin-Panel kann aktiviert werden, dass bestimmte Bearbeitungsschritte übers
 | Auth | localStorage Session (Demo), erweiterbar |
 | QR-Code | `qrcode` (Generierung), eigene Poll-API |
 
----
-
-## 📖 Dokumentation
-
-Die vollständige Dokumentation befindet sich im [wiki/](./wiki/) Verzeichnis:
-
-- [Home](./wiki/Home.md) — Übersicht & Navigation
-- [Installation](./wiki/Installation.md) — Setup-Guide
-- [Konfiguration](./wiki/Konfiguration.md) — Alle Settings
-- [Auftragsmanagement](./wiki/Auftragsmanagement.md) — Tasks & Timeline
-- [Integrationen](./wiki/Integrationen.md) — Weclapp, WMS, QZ Tray
-
----
-
-## 📜 Lizenz
-
-Dieses Projekt steht unter der [MIT-Lizenz](LICENSE.md).
-
----
-
-## 🤝 Contributing
-
-1. Fork erstellen
-2. Feature-Branch anlegen (`git checkout -b feature/neues-feature`)
-3. Änderungen committen (`git commit -m 'feat: Beschreibung'`)
-4. Branch pushen (`git push origin feature/neues-feature`)
-5. Pull Request erstellen
-
----
 
 Built with ❤️ by **ePerformances**
