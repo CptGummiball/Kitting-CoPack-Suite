@@ -132,4 +132,11 @@ When in doubt, follow this order:
 3. Implement immediately
 4. Validate
 5. Iterate
+
+### Readme and Changelog
+
+- Always keep the README.md and CHANGELOG.md up to date
+- If README.md or CHANGELOG.md is missing, create it
+- Update the README.md with any new features or changes
+- Update the CHANGELOG.md with any new features or changes
 <!-- END:nextjs-agent-rules -->

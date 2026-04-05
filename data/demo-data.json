@@ -1142,7 +1142,11 @@
       ],
       "defaultStatus": "open",
       "defaultPriority": "medium",
-      "batchPrefix": "eP-"
+      "batchPrefix": "eP-",
+      "skippableSteps": {
+        "enabled": false,
+        "steps": []
+      }
     },
     "labels": {
       "defaultPrinterName": "Zebra ZD420 - Produktion",
@@ -1163,12 +1167,24 @@
       "apiToken": "",
       "syncArticles": true,
       "syncOrders": true,
+      "productionArticleTypes": ["STORABLE", "SALES_BILL_OF_MATERIAL"],
       "lastSyncAt": null
     },
     "wms": {
       "enabled": false,
+      "handoverMode": "simple-webhook",
+      "webhookUrl": "",
+      "webhookHeaders": {},
       "webhookSecret": "",
+      "wmsEndpoint": "",
+      "wmsApiKey": "",
       "autoConfirmHandover": false
+    },
+    "userSync": {
+      "enabled": false,
+      "sourceUrl": "",
+      "apiKey": "",
+      "lastSyncAt": null
     },
     "api": {
       "enabled": false,

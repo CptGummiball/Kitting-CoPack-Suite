@@ -1,4 +1,6 @@
 import { db } from '@/lib/data';
+import { createWeclappClient } from '@/lib/weclapp';
+import type { Item } from '@/lib/data/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,32 +15,25 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action') || 'test';
 
-    const baseUrl = settings.weclapp.tenantUrl.replace(/\/$/, '');
-    const headers: HeadersInit = {
-      'AuthenticationToken': settings.weclapp.apiToken,
-      'Content-Type': 'application/json',
-    };
+    const client = createWeclappClient({
+      tenantUrl: settings.weclapp.tenantUrl,
+      apiToken: settings.weclapp.apiToken,
+    });
 
     if (action === 'test') {
-      // Test connection by fetching tenant info
-      const res = await fetch(`${baseUrl}/webapp/api/v1/tenant`, { headers });
-      if (!res.ok) {
-        return Response.json({ 
-          success: false, 
-          error: `Verbindung fehlgeschlagen (HTTP ${res.status})` 
+      const result = await client.testConnection();
+      if (!result.success) {
+        return Response.json({
+          success: false,
+          error: result.error || 'Verbindung fehlgeschlagen',
         }, { status: 400 });
       }
-      const data = await res.json();
-      return Response.json({ success: true, tenant: data });
+      return Response.json({ success: true, tenant: { company: result.tenantName } });
     }
 
     if (action === 'articles') {
-      const res = await fetch(`${baseUrl}/webapp/api/v1/article?pageSize=50`, { headers });
-      if (!res.ok) {
-        return Response.json({ error: 'Artikel konnten nicht abgerufen werden' }, { status: 400 });
-      }
-      const data = await res.json();
-      return Response.json({ success: true, articles: data.result || [] });
+      const articles = await client.getArticles();
+      return Response.json({ success: true, articles });
     }
 
     return Response.json({ error: 'Unbekannte Aktion' }, { status: 400 });
@@ -58,10 +53,86 @@ export async function POST(request: Request) {
     const body = await request.json();
     const action = body.action || 'sync';
 
-    if (action === 'sync') {
-      // Update last sync timestamp
+    if (action === 'sync-production-articles') {
+      const client = createWeclappClient({
+        tenantUrl: settings.weclapp.tenantUrl,
+        apiToken: settings.weclapp.apiToken,
+      });
+
+      // 1. Fetch production articles filtered by configured articleTypes
+      const articleTypes = settings.weclapp.productionArticleTypes || ['STORABLE'];
+      const productionArticles = await client.getProductionArticles(articleTypes);
+
+      // 2. Collect BOM child article IDs
+      const bomChildIds = await client.collectBomChildArticleIds(productionArticles);
+
+      // 3. Fetch child articles that aren't already in the production list
+      const existingIds = new Set(productionArticles.map(a => a.id));
+      const missingChildIds = [...bomChildIds].filter(id => !existingIds.has(id));
+      const childArticles = missingChildIds.length > 0
+        ? await client.getArticlesByIds(missingChildIds)
+        : [];
+
+      // 4. Merge all articles to sync
+      const allArticles = [...productionArticles, ...childArticles];
+
+      // 5. Sync to local items
+      const existingItems = await db.getItems();
+      let created = 0;
+      let updated = 0;
+
+      for (const article of allArticles) {
+        // Match by SKU (articleNumber) or weclappId
+        const existing = existingItems.find(
+          item => item.sku === article.articleNumber || (item as any).weclappId === article.id
+        );
+
+        if (existing) {
+          // Update existing item
+          await db.updateItem(existing.id, {
+            name: article.name,
+            description: article.description || existing.description,
+            ean: article.ean || existing.ean,
+            isActive: article.active,
+          } as Partial<Item>);
+          updated++;
+        } else {
+          // Create new item
+          await db.createItem({
+            sku: article.articleNumber,
+            ean: article.ean,
+            name: article.name,
+            description: article.description || '',
+            components: [],
+            instructions: [],
+            specialNotes: '',
+            labelConfigs: [],
+            isActive: article.active,
+          } as Omit<Item, 'id' | 'createdAt' | 'updatedAt' | 'changeHistory'>);
+          created++;
+        }
+      }
+
+      // 6. Update last sync timestamp
       await db.updateSettings({
-        weclapp: { ...settings.weclapp, lastSyncAt: new Date().toISOString() }
+        weclapp: { ...settings.weclapp, lastSyncAt: new Date().toISOString() },
+      });
+
+      return Response.json({
+        success: true,
+        message: 'Produktionsartikel-Synchronisation abgeschlossen',
+        synced: allArticles.length,
+        created,
+        updated,
+        productionArticles: productionArticles.length,
+        bomChildren: childArticles.length,
+      });
+    }
+
+    if (action === 'sync') {
+      // Legacy: Update last sync timestamp only
+      await db.updateSettings({
+        weclapp: { ...settings.weclapp, lastSyncAt: new Date().toISOString() },
       });
       return Response.json({ success: true, message: 'Synchronisation gestartet' });
     }

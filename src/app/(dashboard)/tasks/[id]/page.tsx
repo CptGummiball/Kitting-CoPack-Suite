@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth/auth-context';
-import type { Task, Item, TimelineEntry } from '@/lib/data/types';
+import type { Task, Item, TimelineEntry, AppSettings } from '@/lib/data/types';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './task-detail.module.css';
@@ -15,9 +15,12 @@ const TIMELINE_STEPS: { step: TimelineEntry['step']; label: string }[] = [
   { step: 'stored', label: 'Eingelagert' },
 ];
 
-function getTimelineState(timeline: TimelineEntry[], step: string): 'completed' | 'active' | 'pending' {
+function getTimelineState(timeline: TimelineEntry[], step: string): 'completed' | 'active' | 'pending' | 'skipped' {
   const entry = timeline.find(t => t.step === step);
   if (!entry?.timestamp) return 'pending';
+  
+  // Check if marked as skipped
+  if ((entry as any).skipped) return 'skipped' as any;
   
   // Find the last completed step
   const completedSteps = timeline.filter(t => t.timestamp);
@@ -34,10 +37,15 @@ export default function TaskDetailPage() {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+  const [skippableSteps, setSkippableSteps] = useState<{
+    enabled: boolean;
+    steps: string[];
+  }>({ enabled: false, steps: [] });
 
   useEffect(() => {
     if (!params?.id) return;
     
+    // Fetch task
     fetch(`/api/tasks/${params.id}`)
       .then(res => {
         if (!res.ok) throw new Error('Not found');
@@ -50,6 +58,16 @@ export default function TaskDetailPage() {
       .catch(() => {
         setLoading(false);
       });
+
+    // Fetch settings for skippable steps
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then((settings: AppSettings) => {
+        if (settings.tasks?.skippableSteps) {
+          setSkippableSteps(settings.tasks.skippableSteps);
+        }
+      })
+      .catch(() => {});
   }, [params?.id]);
 
   if (!user) return null;
@@ -109,7 +127,11 @@ export default function TaskDetailPage() {
       const res = await fetch(`/api/tasks/${task.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify({
+          status: newStatus,
+          userId: user.id,
+          userName: user.name,
+        })
       });
       if (res.ok) {
         const updated = await res.json();
@@ -167,6 +189,25 @@ export default function TaskDetailPage() {
     });
   };
 
+  // Determine which skip actions are available
+  const canSkipToComplete = skippableSteps.enabled
+    && skippableSteps.steps.includes('in-progress')
+    && (task.status === 'open' || task.status === 'planned' || task.status === 'paused');
+
+  const canSkipToWarehouse = skippableSteps.enabled
+    && skippableSteps.steps.includes('completed')
+    && task.status === 'in-progress';
+
+  const canSkipToStored = skippableSteps.enabled
+    && skippableSteps.steps.includes('handed-to-warehouse')
+    && task.status === 'completed';
+
+  // Also allow direct warehouse handover from earlier statuses when both in-progress and completed are skippable
+  const canDirectWarehouseFromOpen = skippableSteps.enabled
+    && skippableSteps.steps.includes('in-progress')
+    && skippableSteps.steps.includes('completed')
+    && (task.status === 'open' || task.status === 'planned' || task.status === 'paused');
+
   return (
     <div className={styles.page}>
       <div className={styles.breadcrumbs}>
@@ -184,6 +225,7 @@ export default function TaskDetailPage() {
           </div>
         </div>
         <div className={styles.actions}>
+          {/* Standard progression buttons */}
           {(task.status === 'open' || task.status === 'planned' || task.status === 'paused') && (
             <button 
               className="btn btn-primary"
@@ -220,6 +262,33 @@ export default function TaskDetailPage() {
               Einlagerung bestätigen
             </button>
           )}
+
+          {/* Skip buttons */}
+          {canSkipToComplete && (
+            <button className="btn btn-ghost btn-sm" onClick={() => updateStatus('completed')} title="Schritt überspringen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+              → Fertiggestellt
+            </button>
+          )}
+          {canSkipToWarehouse && (
+            <button className="btn btn-ghost btn-sm" onClick={handleHandToWarehouse} title="Schritt überspringen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+              → Lagerübergabe
+            </button>
+          )}
+          {canSkipToStored && (
+            <button className="btn btn-ghost btn-sm" onClick={handleConfirmStorage} title="Schritt überspringen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+              → Eingelagert
+            </button>
+          )}
+          {canDirectWarehouseFromOpen && (
+            <button className="btn btn-ghost btn-sm" onClick={handleHandToWarehouse} title="Direkt an Lager übergeben">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+              → Direkt an Lager
+            </button>
+          )}
+
           <Link href={`/print-center?taskId=${task.id}`} className="btn btn-secondary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             Labels

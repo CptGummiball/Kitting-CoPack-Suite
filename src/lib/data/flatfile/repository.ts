@@ -290,6 +290,7 @@ export const flatFileRepository: DataRepository = {
       qzTray: { ...data.settings.qzTray, ...(updates.qzTray || {}) },
       weclapp: { ...data.settings.weclapp, ...(updates.weclapp || {}) },
       wms: { ...data.settings.wms, ...(updates.wms || {}) },
+      userSync: { ...(data.settings as any).userSync, ...(updates as any).userSync || {} },
       api: { ...data.settings.api, ...(updates.api || {}) },
       system: { ...data.settings.system, ...(updates.system || {}) },
     };

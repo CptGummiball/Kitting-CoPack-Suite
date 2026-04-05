@@ -240,6 +240,10 @@ export interface AppSettings {
     defaultStatus: TaskStatus;
     defaultPriority: TaskPriority;
     batchPrefix: string;
+    skippableSteps: {
+      enabled: boolean;
+      steps: ('in-progress' | 'completed' | 'handed-to-warehouse')[];
+    };
   };
   labels: {
     defaultPrinterName: string;
@@ -260,12 +264,24 @@ export interface AppSettings {
     apiToken: string;
     syncArticles: boolean;
     syncOrders: boolean;
+    productionArticleTypes: string[];
     lastSyncAt?: string;
   };
   wms: {
     enabled: boolean;
+    handoverMode: 'simple-webhook' | 'wms-message';
+    webhookUrl?: string;
+    webhookHeaders?: Record<string, string>;
     webhookSecret?: string;
+    wmsEndpoint?: string;
+    wmsApiKey?: string;
     autoConfirmHandover: boolean;
+  };
+  userSync: {
+    enabled: boolean;
+    sourceUrl: string;
+    apiKey: string;
+    lastSyncAt?: string;
   };
   api: {
     enabled: boolean;
