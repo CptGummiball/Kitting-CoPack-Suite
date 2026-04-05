@@ -152,4 +152,4 @@ Im Admin-Panel kann aktiviert werden, dass bestimmte Bearbeitungsschritte übers
 | QR-Code | `qrcode` (Generierung), eigene Poll-API |
 
 
-Built with ❤️ by **ePerformances**
+Built with ❤️ by **CprGummiball**
