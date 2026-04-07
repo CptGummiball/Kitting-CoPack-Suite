@@ -1,6 +1,6 @@
 # 📦 Kitting & CoPack Suite
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 [![Version](https://img.shields.io/badge/version-0.2.0--beta-green.svg)](#)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6.svg)](https://www.typescriptlang.org/)
@@ -152,4 +152,4 @@ Im Admin-Panel kann aktiviert werden, dass bestimmte Bearbeitungsschritte übers
 | QR-Code | `qrcode` (Generierung), eigene Poll-API |
 
 
-Built with ❤️ by **CprGummiball**
+Built with ❤️ by **CptGummiball**
