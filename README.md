@@ -1,6 +1,6 @@
 # 📦 Kitting & CoPack Suite
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/License.svg)](LICENSE.md)
 [![Version](https://img.shields.io/badge/version-0.2.0--beta-green.svg)](#)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6.svg)](https://www.typescriptlang.org/)
